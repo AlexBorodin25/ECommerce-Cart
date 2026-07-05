@@ -63,7 +63,7 @@ class Cart:
         print(f"Total price: ${self.calculate_total():.2f}")
 
 def load_products():
-    with open(filename, "r") as file:
+    with open("products,json", "r") as file:
         data = json.load(file)
 
     products = []
