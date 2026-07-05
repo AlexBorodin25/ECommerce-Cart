@@ -1,0 +1,9 @@
+[
+  { "id": 1, "name": "Jacket", "price": 99.99 },
+  { "id": 2, "name": "Pants", "price": 39.99 },
+  { "id": 3, "name": "T-shirt", "price": 19.99 },
+  { "id": 4, "name": "Shoes", "price": 149.99 },
+  { "id": 5, "name": "Hat", "price": 14.99 },
+  { "id": 6, "name": "Socks", "price": 9.99 },
+  { "id": 7, "name": "Bag", "price": 59.99 }
+]
