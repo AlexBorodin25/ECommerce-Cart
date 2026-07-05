@@ -39,3 +39,11 @@ class Cart:
             print(f"Discount code {discount_code} applied.")
         else:
             print(f"Discount code {discount_code} not found.")
+
+    def calculate_total(self):
+        total = sum([product.price for product in self.items])
+
+        if self.dicount > 0:
+            total -= total * self.discount
+
+        return total
