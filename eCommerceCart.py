@@ -1,5 +1,8 @@
 import json
 
+from statsmodels.sandbox.regression.ols_anova_original import products
+
+
 class Product:
     def __init__(self, product_id, name, price):
         self.product_id = product_id
@@ -58,3 +61,20 @@ class Cart:
             print(product)
 
         print(f"Total price: ${self.calculate_total():.2f}")
+
+def load_products():
+    with open(filename, "r") as file:
+        data = json.load(file)
+
+    products = []
+
+    for item in data:
+        product = Product(item["id"], item["name"], item["price"])
+        products.append(product)
+
+    return products
+
+def show_products():
+    print("Available products:")
+    for product in products:
+        print(f"{product.product_id}. {product}")
