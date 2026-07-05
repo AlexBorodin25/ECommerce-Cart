@@ -20,7 +20,7 @@ class Cart:
 
     def remove_item(self, product_id):
         for product in self.items:
-            if product.product.id == product_id:
+            if product.product_id == product_id:
                 self.items.remove(product)
                 print(f"Removed {product.name} from cart.")
                 return
@@ -43,7 +43,7 @@ class Cart:
     def calculate_total(self):
         total = sum([product.price for product in self.items])
 
-        if self.dicount > 0:
+        if self.discount > 0:
             total -= total * self.discount
 
         return total
@@ -85,8 +85,8 @@ def main():
        print("1. View products")
        print("2. Add products to cart")
        print("3. Remove products from cart")
-       print("4. Show cart")
-       print("5. Apply discounts")
+       print("4. Apply discount")
+       print("5. Show cart")
        print("6. Exit")
 
        choice = int(input("Enter your choice: "))
@@ -100,7 +100,7 @@ def main():
 
            product_found = None
            for product in products:
-               if product.product.id == product_id:
+               if product.product_id == product_id:
                    product_found = product
                    break
 
@@ -114,7 +114,7 @@ def main():
            cart.remove_item(product_id)
 
        elif choice == 4:
-           discount_code = int(input("Enter discount code: "))
+           discount_code = input("Enter discount code: ")
            cart.add_discount(discount_code)
 
        elif choice == 5:
