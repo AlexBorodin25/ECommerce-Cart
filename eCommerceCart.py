@@ -78,3 +78,57 @@ def show_products():
     print("Available products:")
     for product in products:
         print(f"{product.product_id}. {product}")
+
+def main():
+   products = load_products("products.json")
+   cart = Cart()
+
+   while True:
+       print("E-Commerce Cart Simulation")
+       print("1. View products")
+       print("2. Add products to cart")
+       print("3. Remove products from cart")
+       print("4. Show cart")
+       print("5. Apply discounts")
+       print("6. Exit")
+
+       choice = int(input("Enter your choice: "))
+
+       if choice == 1:
+           show_products(products)
+
+       elif choice == 2:
+           show_products(products)
+           product_id = int(input("Enter product id to add: "))
+
+           product_found = None
+           for product in products:
+               if product.product.id == product_id:
+                   product_found = product
+                   break
+
+           if product_found:
+               cart.add_item(product_found)
+           else:
+               print("Product not found.")
+
+       elif choice == 3:
+           product_id = int(input("Enter product id to remove: "))
+           cart.remove_item(product_id)
+
+       elif choice == 4:
+           discount_code = int(input("Enter discount code: "))
+           cart.add_discount(discount_code)
+
+       elif choice == 5:
+           cart.show_cart()
+
+       elif choice == 6:
+           print("Exiting...")
+           break
+
+       else:
+           print("Invalid choice.")
+
+if __name__ == "__main__":
+    main()
