@@ -24,3 +24,18 @@ class Cart:
                 self.items.remove(product)
                 print(f"Removed {product.name} from cart.")
                 return
+
+        print("Not found in cart.")
+
+    def add_discount(self, discount_code):
+        discounts = {
+            "SAVE10": 0.10,
+            "SAVE20": 0.20,
+            "SAVE30": 0.30,
+        }
+
+        if discount_code in discounts:
+            self.discount = discounts[discount_code]
+            print(f"Discount code {discount_code} applied.")
+        else:
+            print(f"Discount code {discount_code} not found.")
