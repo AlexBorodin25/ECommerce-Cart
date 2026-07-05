@@ -1,8 +1,5 @@
 import json
 
-from statsmodels.sandbox.regression.ols_anova_original import products
-
-
 class Product:
     def __init__(self, product_id, name, price):
         self.product_id = product_id
