@@ -47,3 +47,14 @@ class Cart:
             total -= total * self.discount
 
         return total
+
+    def show_cart(self):
+        if not self.items:
+            print("No items in cart.")
+            return
+
+        print("Your Cart:")
+        for product in self.items:
+            print(product)
+
+        print(f"Total price: ${self.calculate_total():.2f}")
