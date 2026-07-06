@@ -113,3 +113,11 @@ def test_calculate_total_no_discount():
     cart.add_item(Product(2, "Pants", 39.99))
 
     assert cart.calculate_total() == 139.98
+
+def test_remove_item_not_found(capsys):
+    cart = Cart()
+
+    cart.remove_item(111)
+
+    captured = capsys.readouterr()
+    assert "Not found in cart." in captured.out
