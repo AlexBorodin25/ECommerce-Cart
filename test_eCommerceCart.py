@@ -17,3 +17,14 @@ def test_add_item():
 
     assert len(cart.items) == 1
     assert cart.items[0] == product
+
+def test_remove_item():
+    cart = Cart()
+    product = Product(1, "Jacket", 99.99)
+
+    cart.add_item(product)
+    cart.remove_item(1)
+
+    assert len(cart.items) == 0
+
+
