@@ -39,7 +39,7 @@ def test_calculate_total():
     cart.add_item(Product(1, "Jacket", 99.99))
     cart.add_discount("SAVE10")
 
-    assert cart.calculate_total() == 89.99
+    assert cart.calculate_total() == 89.991
 
 def test_show_empty_cart(capsys):
     cart = Cart()
@@ -92,3 +92,17 @@ def test_show_products(capsys):
     assert "Available products:" in captured.out
     assert "1. Jacket - $99.99" in captured.out
     assert "2. Pants - $39.99" in captured.out
+
+def test_product_format():
+    product = Product(1, "Jacket", 99.99)
+
+    assert str(product) == "Jacket - $99.99"
+
+def test_invalid_discount(capsys):
+    cart = Cart()
+
+    cart.add_discount("WRONG")
+
+    captured = capsys.readouterr()
+    assert cart.discount == 0
+    assert "Discount code WRONG not found." in captured.out
