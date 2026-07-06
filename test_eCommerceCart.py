@@ -80,3 +80,15 @@ def test_load_products(tmp_path):
     assert products[1].product_id == 2
     assert products[1].name == "Pants"
     assert products[1].price == 39.99
+
+def test_show_products(capsys):
+    products = [
+        Product(1, "Jacket", 99.99),
+        Product(2, "Pants", 39.99),
+    ]
+
+    show_products(products)
+    captured = capsys.readouterr()
+    assert "Available products:" in captured.out
+    assert "1. Jacket - $99.99" in captured.out
+    assert "2. Pants - $39.99" in captured.out
