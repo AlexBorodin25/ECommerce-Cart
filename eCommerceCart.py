@@ -76,7 +76,7 @@ def show_products(products):
     for product in products:
         print(f"{product.product_id}. {product}")
 
-def main():
+def main(): #pragma: no cover
    products = load_products("products.json")
    cart = Cart()
 
@@ -127,5 +127,5 @@ def main():
        else:
            print("Invalid choice.")
 
-if __name__ == "__main__":
+if __name__ == "__main__": #pragma: no cover
     main()
