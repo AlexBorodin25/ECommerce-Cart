@@ -27,4 +27,9 @@ def test_remove_item():
 
     assert len(cart.items) == 0
 
+def test_add_discount():
+    cart = Cart()
 
+    cart.add_discount("SAVE10")
+
+    assert cart.discount == 0.10
