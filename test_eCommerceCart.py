@@ -33,3 +33,10 @@ def test_add_discount():
     cart.add_discount("SAVE10")
 
     assert cart.discount == 0.10
+
+def test_calculate_total():
+    cart = Cart()
+    cart.add_item(Product(1, "Jacket", 99.99))
+    cart.add_discount("SAVE10")
+
+    assert cart.calculate_total() == 89.99
