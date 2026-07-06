@@ -40,3 +40,22 @@ def test_calculate_total():
     cart.add_discount("SAVE10")
 
     assert cart.calculate_total() == 89.99
+
+def test_show_empty_cart(capsys):
+    cart = Cart()
+
+    cart.show_cart()
+
+    captured = capsys.readouterr()
+    assert "No items in cart." in captured.out
+
+def test_show_cart(capsys):
+    cart = Cart()
+    cart.add_item(Product(1, "Jacket", 99.99))
+
+    cart.show_cart()
+
+    captured = capsys.readouterr()
+    assert "Your cart:" in captured.out
+    assert "Jacket - $99.99" in captured.out
+    assert "Total price: $99.99" in captured.out
