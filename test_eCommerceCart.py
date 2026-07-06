@@ -106,3 +106,10 @@ def test_invalid_discount(capsys):
     captured = capsys.readouterr()
     assert cart.discount == 0
     assert "Discount code WRONG not found." in captured.out
+
+def test_calculate_total_no_discount():
+    cart = Cart()
+    cart.add_item(Product(1, "Jacket", 99.99))
+    cart.add_item(Product(2, "Pants", 39.99))
+
+    assert cart.calculate_total() == 139.98
