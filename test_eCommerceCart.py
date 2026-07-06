@@ -56,6 +56,27 @@ def test_show_cart(capsys):
     cart.show_cart()
 
     captured = capsys.readouterr()
-    assert "Your cart:" in captured.out
+    assert "Your Cart:" in captured.out
     assert "Jacket - $99.99" in captured.out
     assert "Total price: $99.99" in captured.out
+
+def test_load_products(tmp_path):
+    product_data = [
+        {"id": 1, "name": "Jacket", "price": 99.99},
+        {"id": 2, "name": "Pants", "price": 39.99},
+    ]
+
+    file_path = tmp_path / "products.json"
+
+    with open(file_path, "w") as f:
+        json.dump(product_data, f)
+
+    products = load_products(file_path)
+
+    assert len(products) == 2
+    assert products[0].product_id == 1
+    assert products[0].name == "Jacket"
+    assert products[0].price == 99.99
+    assert products[1].product_id == 2
+    assert products[1].name == "Pants"
+    assert products[1].price == 39.99
