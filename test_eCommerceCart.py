@@ -1,6 +1,7 @@
 import json
 
 from eCommerceCart import Product, Cart, load_products, show_products
+from decimal import Decimal
 
 def test_product():
     product = Product(1, "Jacket", 99.99)
@@ -39,7 +40,7 @@ def test_calculate_total():
     cart.add_item(Product(1, "Jacket", 99.99))
     cart.add_discount("SAVE10")
 
-    assert cart.calculate_total() == 89.991
+    assert cart.calculate_total() == Decimal("89.991")
 
 def test_show_empty_cart(capsys):
     cart = Cart()
