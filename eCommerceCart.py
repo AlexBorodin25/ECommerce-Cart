@@ -66,10 +66,10 @@ def load_products(filename):
         with open(filename, "r") as file:
             data = json.load(file)
     except FileNotFoundError:
-        print("File not found: {filename}")
+        print(f"File not found: {filename}")
         return []
     except JSONDecodeError:
-        print("Invalid JSON file: {filename}")
+        print(f"Invalid JSON file: {filename}")
         return []
 
     products = []
@@ -103,14 +103,22 @@ def main(): #pragma: no cover
        print("5. Show cart")
        print("6. Exit")
 
-       choice = int(input("Enter your choice: "))
+       try:
+           choice = int(input("Enter your choice: "))
+       except ValueError:
+           print("Invalid choice.")
+           continue
 
        if choice == 1:
            show_products(products)
 
        elif choice == 2:
            show_products(products)
-           product_id = int(input("Enter product id to add: "))
+           try:
+               product_id = int(input("Enter product id to add: "))
+           except ValueError:
+               print("Invalid product id.")
+               continue
 
            product_found = None
            for product in products:
