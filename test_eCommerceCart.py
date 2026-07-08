@@ -3,12 +3,14 @@ import json
 from eCommerceCart import Product, Cart, load_products, show_products
 from decimal import Decimal
 
+
 def test_product():
     product = Product(1, "Jacket", 99.99)
 
     assert product.product_id == 1
     assert product.name == "Jacket"
     assert product.price == Decimal("99.99")
+
 
 def test_add_item():
     cart = Cart()
@@ -19,6 +21,7 @@ def test_add_item():
     assert len(cart.items) == 1
     assert cart.items[0] == product
 
+
 def test_remove_item():
     cart = Cart()
     product = Product(1, "Jacket", 99.99)
@@ -28,12 +31,14 @@ def test_remove_item():
 
     assert len(cart.items) == 0
 
+
 def test_add_discount():
     cart = Cart()
 
     cart.add_discount("SAVE10")
 
     assert cart.discount == Decimal("0.10")
+
 
 def test_calculate_total():
     cart = Cart()
@@ -42,6 +47,7 @@ def test_calculate_total():
 
     assert cart.calculate_total() == Decimal("89.991")
 
+
 def test_show_empty_cart(capsys):
     cart = Cart()
 
@@ -49,6 +55,7 @@ def test_show_empty_cart(capsys):
 
     captured = capsys.readouterr()
     assert "No items in cart." in captured.out
+
 
 def test_show_cart(capsys):
     cart = Cart()
@@ -60,6 +67,7 @@ def test_show_cart(capsys):
     assert "Your Cart:" in captured.out
     assert "Jacket - $99.99" in captured.out
     assert "Total price: $99.99" in captured.out
+
 
 def test_load_products(tmp_path):
     product_data = [
@@ -82,6 +90,7 @@ def test_load_products(tmp_path):
     assert products[1].name == "Pants"
     assert products[1].price == Decimal("39.99")
 
+
 def test_show_products(capsys):
     products = [
         Product(1, "Jacket", 99.99),
@@ -94,10 +103,12 @@ def test_show_products(capsys):
     assert "1. Jacket - $99.99" in captured.out
     assert "2. Pants - $39.99" in captured.out
 
+
 def test_product_format():
     product = Product(1, "Jacket", 99.99)
 
     assert str(product) == "Jacket - $99.99"
+
 
 def test_invalid_discount(capsys):
     cart = Cart()
@@ -108,12 +119,14 @@ def test_invalid_discount(capsys):
     assert cart.discount == Decimal("0")
     assert "Discount code WRONG not found." in captured.out
 
+
 def test_calculate_total_no_discount():
     cart = Cart()
     cart.add_item(Product(1, "Jacket", 99.99))
     cart.add_item(Product(2, "Pants", 39.99))
 
     assert cart.calculate_total() == Decimal("139.98")
+
 
 def test_remove_item_not_found(capsys):
     cart = Cart()
