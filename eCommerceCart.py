@@ -1,18 +1,22 @@
 import json
+from decimal import Decimal, InvalidOperation
+from json import JSONDecodeError
+
 
 class Product:
     def __init__(self, product_id, name, price):
         self.product_id = product_id
         self.name = name
-        self.price = price
+        self.price = Decimal(str(price))
 
     def __str__(self):
         return f"{self.name} - ${self.price:.2f}"
 
+
 class Cart:
     def __init__(self):
         self.items = []
-        self.discount = 0
+        self.discount = Decimal("0")
 
     def add_item(self, product):
         self.items.append(product)
@@ -29,9 +33,9 @@ class Cart:
 
     def add_discount(self, discount_code):
         discounts = {
-            "SAVE10": 0.10,
-            "SAVE20": 0.20,
-            "SAVE30": 0.30,
+            "SAVE10": Decimal("0.10"),
+            "SAVE20": Decimal("0.20"),
+            "SAVE30": Decimal("0.30"),
         }
 
         if discount_code in discounts:
@@ -41,7 +45,7 @@ class Cart:
             print(f"Discount code {discount_code} not found.")
 
     def calculate_total(self):
-        total = sum([product.price for product in self.items])
+        total = sum((product.price for product in self.items), Decimal("0"))
 
         if self.discount > 0:
             total -= total * self.discount
@@ -59,73 +63,97 @@ class Cart:
 
         print(f"Total price: ${self.calculate_total():.2f}")
 
+
 def load_products(filename):
-    with open(filename, "r") as file:
-        data = json.load(file)
+    try:
+        with open(filename, "r") as file:
+            data = json.load(file)
+    except FileNotFoundError:
+        print(f"File not found: {filename}")
+        return []
+    except JSONDecodeError:
+        print(f"Invalid JSON file: {filename}")
+        return []
 
     products = []
 
     for item in data:
-        product = Product(item["id"], item["name"], item["price"])
-        products.append(product)
+        try:
+            product = Product(item["id"], item["name"], item["price"])
+            products.append(product)
+        except KeyError as error:
+            print(f"Skipping product missing field: {error}")
+        except InvalidOperation:
+            print(f"Skipping product with invalid price: {item}")
 
     return products
+
 
 def show_products(products):
     print("Available products:")
     for product in products:
         print(f"{product.product_id}. {product}")
 
-def main():
-   products = load_products("products.json")
-   cart = Cart()
 
-   while True:
-       print("E-Commerce Cart Simulation")
-       print("1. View products")
-       print("2. Add products to cart")
-       print("3. Remove products from cart")
-       print("4. Apply discount")
-       print("5. Show cart")
-       print("6. Exit")
+def main():  # pragma: no cover
+    products = load_products("products.json")
+    cart = Cart()
 
-       choice = int(input("Enter your choice: "))
+    while True:
+        print("E-Commerce Cart Simulation")
+        print("1. View products")
+        print("2. Add products to cart")
+        print("3. Remove products from cart")
+        print("4. Apply discount")
+        print("5. Show cart")
+        print("6. Exit")
 
-       if choice == 1:
-           show_products(products)
+        try:
+            choice = int(input("Enter your choice: "))
+        except ValueError:
+            print("Invalid choice.")
+            continue
 
-       elif choice == 2:
-           show_products(products)
-           product_id = int(input("Enter product id to add: "))
+        if choice == 1:
+            show_products(products)
 
-           product_found = None
-           for product in products:
-               if product.product_id == product_id:
-                   product_found = product
-                   break
+        elif choice == 2:
+            show_products(products)
+            try:
+                product_id = int(input("Enter product id to add: "))
+            except ValueError:
+                print("Invalid product id.")
+                continue
 
-           if product_found:
-               cart.add_item(product_found)
-           else:
-               print("Product not found.")
+            product_found = None
+            for product in products:
+                if product.product_id == product_id:
+                    product_found = product
+                    break
 
-       elif choice == 3:
-           product_id = int(input("Enter product id to remove: "))
-           cart.remove_item(product_id)
+            if product_found:
+                cart.add_item(product_found)
+            else:
+                print("Product not found.")
 
-       elif choice == 4:
-           discount_code = input("Enter discount code: ")
-           cart.add_discount(discount_code)
+        elif choice == 3:
+            product_id = int(input("Enter product id to remove: "))
+            cart.remove_item(product_id)
 
-       elif choice == 5:
-           cart.show_cart()
+        elif choice == 4:
+            discount_code = input("Enter discount code: ")
+            cart.add_discount(discount_code)
 
-       elif choice == 6:
-           print("Exiting...")
-           break
+        elif choice == 5:
+            cart.show_cart()
 
-       else:
-           print("Invalid choice.")
+        elif choice == 6:
+            print("Exiting...")
+            break
 
-if __name__ == "__main__":
+        else:
+            print("Invalid choice.")
+
+
+if __name__ == "__main__":  # pragma: no cover
     main()
