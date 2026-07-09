@@ -2,6 +2,7 @@ import json
 from decimal import Decimal, InvalidOperation
 from json import JSONDecodeError
 
+
 class Product:
     def __init__(self, product_id, name, price):
         self.product_id = product_id
@@ -10,6 +11,7 @@ class Product:
 
     def __str__(self):
         return f"{self.name} - ${self.price:.2f}"
+
 
 class Cart:
     def __init__(self):
@@ -61,6 +63,7 @@ class Cart:
 
         print(f"Total price: ${self.calculate_total():.2f}")
 
+
 def load_products(filename):
     try:
         with open(filename, "r") as file:
@@ -85,69 +88,72 @@ def load_products(filename):
 
     return products
 
+
 def show_products(products):
     print("Available products:")
     for product in products:
         print(f"{product.product_id}. {product}")
 
-def main(): #pragma: no cover
-   products = load_products("products.json")
-   cart = Cart()
 
-   while True:
-       print("E-Commerce Cart Simulation")
-       print("1. View products")
-       print("2. Add products to cart")
-       print("3. Remove products from cart")
-       print("4. Apply discount")
-       print("5. Show cart")
-       print("6. Exit")
+def main():  # pragma: no cover
+    products = load_products("products.json")
+    cart = Cart()
 
-       try:
-           choice = int(input("Enter your choice: "))
-       except ValueError:
-           print("Invalid choice.")
-           continue
+    while True:
+        print("E-Commerce Cart Simulation")
+        print("1. View products")
+        print("2. Add products to cart")
+        print("3. Remove products from cart")
+        print("4. Apply discount")
+        print("5. Show cart")
+        print("6. Exit")
 
-       if choice == 1:
-           show_products(products)
+        try:
+            choice = int(input("Enter your choice: "))
+        except ValueError:
+            print("Invalid choice.")
+            continue
 
-       elif choice == 2:
-           show_products(products)
-           try:
-               product_id = int(input("Enter product id to add: "))
-           except ValueError:
-               print("Invalid product id.")
-               continue
+        if choice == 1:
+            show_products(products)
 
-           product_found = None
-           for product in products:
-               if product.product_id == product_id:
-                   product_found = product
-                   break
+        elif choice == 2:
+            show_products(products)
+            try:
+                product_id = int(input("Enter product id to add: "))
+            except ValueError:
+                print("Invalid product id.")
+                continue
 
-           if product_found:
-               cart.add_item(product_found)
-           else:
-               print("Product not found.")
+            product_found = None
+            for product in products:
+                if product.product_id == product_id:
+                    product_found = product
+                    break
 
-       elif choice == 3:
-           product_id = int(input("Enter product id to remove: "))
-           cart.remove_item(product_id)
+            if product_found:
+                cart.add_item(product_found)
+            else:
+                print("Product not found.")
 
-       elif choice == 4:
-           discount_code = input("Enter discount code: ")
-           cart.add_discount(discount_code)
+        elif choice == 3:
+            product_id = int(input("Enter product id to remove: "))
+            cart.remove_item(product_id)
 
-       elif choice == 5:
-           cart.show_cart()
+        elif choice == 4:
+            discount_code = input("Enter discount code: ")
+            cart.add_discount(discount_code)
 
-       elif choice == 6:
-           print("Exiting...")
-           break
+        elif choice == 5:
+            cart.show_cart()
 
-       else:
-           print("Invalid choice.")
+        elif choice == 6:
+            print("Exiting...")
+            break
 
-if __name__ == "__main__": #pragma: no cover
+        else:
+            print("Invalid choice.")
+
+
+if __name__ == "__main__":  # pragma: no cover
     main()
